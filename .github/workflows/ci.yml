@@ -1,0 +1,32 @@
+name: CI - Merge Developer Branches
+
+on:
+  push:
+    branches:
+      - "dev-*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  merge-to-development:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Merge into development
+        run: |
+          git fetch origin
+          git checkout development
+          git merge origin/${{ github.ref_name }} --no-edit
+          git push origin development
