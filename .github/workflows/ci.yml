@@ -3,7 +3,8 @@ name: CI - Merge Developer Branches
 on:
   push:
     branches:
-      - 'dev-*'
+      - "dev-*"
+  workflow_dispatch:
 
 permissions:
   contents: write
