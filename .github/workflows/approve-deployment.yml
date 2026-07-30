@@ -1,0 +1,23 @@
+name: Deployment Approval
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Type DEPLOY to continue"
+        required: true
+        default: "DEPLOY"
+
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify approval
+        run: |
+          if [ "${{ github.event.inputs.confirm }}" != "DEPLOY" ]; then
+            echo "Deployment cancelled."
+            exit 1
+          fi
+
+          echo "Deployment Approved!"
